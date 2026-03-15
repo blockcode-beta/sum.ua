@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>СУМ — Спілка Української Молоді</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0f0e0c;
+    --paper: #f5f0e8;
+    --gold: #c8922a;
+    --gold-light: #e8c97a;
+    --muted: #7a7570;
+    --border: #d8d0c0;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Cormorant Garamond', serif;
+    background: var(--paper);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.4rem 4rem;
+    background: rgba(245,240,232,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'DM Mono', monospace;
+    font-size: .72rem; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--gold);
+  }
+  .nav-links { display: flex; gap: 2.8rem; list-style: none; }
+  .nav-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: .68rem; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none;
+    transition: color .25s;
+  }
+  .nav-links a:hover { color: var(--ink); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid; grid-template-columns: 1fr 1fr; align-items: end;
+    padding: 12rem 4rem 6rem;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: 'СУМ';
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 38vw; font-weight: 600; color: rgba(200,146,42,.05);
+    pointer-events: none; white-space: nowrap;
+    font-family: 'Cormorant Garamond', serif;
+    line-height: 1;
+  }
+  .hero-left { position: relative; }
+  .hero-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: .7rem; letter-spacing: .2em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 1.6rem;
+    display: flex; align-items: center; gap: .8rem;
+  }
+  .hero-tag::before {
+    content: ''; display: inline-block;
+    width: 32px; height: 1px; background: var(--gold);
+  }
+  h1 {
+    font-size: clamp(3.2rem, 6vw, 6.5rem);
+    font-weight: 300; line-height: 1.05;
+    letter-spacing: -.02em;
+  }
+  h1 em { font-style: italic; color: var(--gold); }
+  .hero-desc {
+    margin-top: 2.4rem;
+    font-size: 1.2rem; font-weight: 300;
+    line-height: 1.75; color: var(--muted);
+    max-width: 440px;
+  }
+  .hero-right {
+    display: flex; flex-direction: column; align-items: flex-end;
+    gap: 2rem; padding-bottom: 1rem;
+  }
+  .hero-stat {
+    text-align: right;
+  }
+  .hero-stat .num {
+    font-size: 4rem; font-weight: 300; line-height: 1;
+    color: var(--ink);
+  }
+  .hero-stat .label {
+    font-family: 'DM Mono', monospace;
+    font-size: .65rem; letter-spacing: .16em; text-transform: uppercase;
+    color: var(--muted); margin-top: .3rem;
+  }
+  .hero-divider {
+    width: 1px; height: 60px; background: var(--border);
+    margin-left: auto;
+  }
+
+  /* ── SECTION GLOBALS ── */
+  section { padding: 7rem 4rem; }
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: .68rem; letter-spacing: .2em; text-transform: uppercase;
+    color: var(--gold);
+    display: flex; align-items: center; gap: .8rem;
+    margin-bottom: 3.5rem;
+  }
+  .section-label::after {
+    content: ''; flex: 1; height: 1px; background: var(--border);
+  }
+  h2 {
+    font-size: clamp(2rem, 4vw, 3.8rem);
+    font-weight: 300; line-height: 1.1; letter-spacing: -.02em;
+    margin-bottom: 1rem;
+  }
+  h2 em { font-style: italic; color: var(--gold); }
+
+  /* ── ABOUT GRID ── */
+  .about-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 6rem;
+    align-items: start;
+  }
+  .about-text p {
+    font-size: 1.15rem; font-weight: 300; line-height: 1.85;
+    color: #3a3530; margin-bottom: 1.4rem;
+  }
+  .about-image {
+    position: relative;
+  }
+  .about-image .img-frame {
+    width: 100%; aspect-ratio: 4/5;
+    background: linear-gradient(135deg, #e8dfc8 0%, #d4c8a8 50%, #c8b890 100%);
+    display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+  }
+  .about-image .img-frame::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23a89060' fill-opacity='0.15'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  .img-symbol {
+    font-size: 8rem; opacity: .35;
+    font-family: 'Cormorant Garamond', serif; font-weight: 600;
+    color: var(--gold);
+  }
+  .img-caption {
+    position: absolute; bottom: -2.5rem; right: 0;
+    font-family: 'DM Mono', monospace;
+    font-size: .62rem; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--muted);
+  }
+  .founding-badge {
+    position: absolute; top: -1.5rem; left: -1.5rem;
+    width: 90px; height: 90px;
+    border: 1px solid var(--gold);
+    display: flex; flex-direction: column; align-items: center;
+    justify-content: center; background: var(--paper);
+    z-index: 2;
+  }
+  .founding-badge span:first-child {
+    font-size: 1.8rem; font-weight: 300; color: var(--gold);
+    line-height: 1;
+  }
+  .founding-badge span:last-child {
+    font-family: 'DM Mono', monospace;
+    font-size: .5rem; letter-spacing: .15em; text-transform: uppercase;
+    color: var(--muted); margin-top: .2rem;
+  }
+
+  /* ── AGE & GEOGRAPHY ── */
+  .info-band {
+    background: var(--ink); color: var(--paper);
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    border-top: 1px solid #2a2820;
+    border-bottom: 1px solid #2a2820;
+  }
+  .info-cell {
+    padding: 4rem;
+    border-right: 1px solid #2a2820;
+  }
+  .info-cell:last-child { border-right: none; }
+  .info-cell .cell-label {
+    font-family: 'DM Mono', monospace;
+    font-size: .62rem; letter-spacing: .2em; text-transform: uppercase;
+    color: #a09880; margin-bottom: 1.2rem;
+  }
+  .info-cell .cell-value {
+    font-size: 3.2rem; font-weight: 300; line-height: 1;
+    color: var(--gold-light);
+    margin-bottom: .8rem;
+  }
+  .info-cell .cell-desc {
+    font-size: 1rem; font-weight: 300;
+    line-height: 1.7; color: #c0b8a8;
+  }
+
+  /* ── GEOGRAPHY ── */
+  .geo-section { background: var(--paper); }
+  .geo-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem; margin-top: 3rem;
+  }
+  .geo-card {
+    border: 1px solid var(--border);
+    padding: 2rem 1.8rem;
+    transition: border-color .25s, transform .25s;
+  }
+  .geo-card:hover {
+    border-color: var(--gold);
+    transform: translateY(-4px);
+  }
+  .geo-flag {
+    font-size: 2.2rem; margin-bottom: 1rem;
+  }
+  .geo-country {
+    font-size: 1.1rem; font-weight: 400; margin-bottom: .4rem;
+  }
+  .geo-detail {
+    font-family: 'DM Mono', monospace;
+    font-size: .62rem; letter-spacing: .1em; color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  /* ── ACTIVITIES ── */
+  .activities { background: #f0ece0; }
+  .act-list {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border: 1px solid var(--border);
+    margin-top: 3rem;
+  }
+  .act-item {
+    padding: 2.8rem;
+    border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    transition: background .25s;
+    position: relative; overflow: hidden;
+  }
+  .act-item:nth-child(even) { border-right: none; }
+  .act-item:nth-last-child(-n+2) { border-bottom: none; }
+  .act-item:hover { background: white; }
+  .act-num {
+    font-family: 'DM Mono', monospace;
+    font-size: .6rem; letter-spacing: .2em;
+    color: var(--gold); margin-bottom: 1.2rem;
+  }
+  .act-title {
+    font-size: 1.35rem; font-weight: 400;
+    margin-bottom: .8rem;
+  }
+  .act-desc {
+    font-size: .98rem; font-weight: 300;
+    line-height: 1.7; color: var(--muted);
+  }
+  .act-arrow {
+    position: absolute; bottom: 2rem; right: 2rem;
+    font-size: 1.4rem; color: var(--border);
+    transition: color .25s, transform .25s;
+  }
+  .act-item:hover .act-arrow { color: var(--gold); transform: translate(3px, -3px); }
+
+  /* ── TIMELINE ── */
+  .timeline-section {}
+  .timeline {
+    position: relative; margin-top: 4rem;
+    padding-left: 3rem;
+  }
+  .timeline::before {
+    content: ''; position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 1px; background: var(--border);
+  }
+  .tl-item {
+    position: relative; padding-bottom: 3.5rem;
+    padding-left: 2.5rem;
+  }
+  .tl-item:last-child { padding-bottom: 0; }
+  .tl-dot {
+    position: absolute; left: -3rem;
+    top: .35rem;
+    width: 8px; height: 8px;
+    border: 1px solid var(--gold);
+    background: var(--paper);
+    transform: rotate(45deg);
+  }
+  .tl-year {
+    font-family: 'DM Mono', monospace;
+    font-size: .68rem; letter-spacing: .16em;
+    color: var(--gold); margin-bottom: .6rem;
+  }
+  .tl-title {
+    font-size: 1.3rem; font-weight: 400; margin-bottom: .5rem;
+  }
+  .tl-body {
+    font-size: 1rem; font-weight: 300;
+    line-height: 1.75; color: var(--muted);
+    max-width: 600px;
+  }
+
+  /* ── QUOTE BAND ── */
+  .quote-band {
+    background: var(--gold);
+    padding: 6rem 4rem;
+    text-align: center;
+  }
+  .quote-text {
+    font-size: clamp(1.6rem, 3.5vw, 3rem);
+    font-weight: 300; font-style: italic;
+    color: white; line-height: 1.4;
+    max-width: 800px; margin: 0 auto 1.5rem;
+  }
+  .quote-source {
+    font-family: 'DM Mono', monospace;
+    font-size: .65rem; letter-spacing: .2em; text-transform: uppercase;
+    color: rgba(255,255,255,.65);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--ink); color: var(--paper);
+    padding: 4rem; display: flex;
+    justify-content: space-between; align-items: flex-end;
+  }
+  .footer-logo {
+    font-size: 3rem; font-weight: 300;
+    font-style: italic; color: var(--gold-light);
+  }
+  .footer-info {
+    text-align: right;
+    font-family: 'DM Mono', monospace;
+    font-size: .62rem; letter-spacing: .12em; text-transform: uppercase;
+    color: #6a6458; line-height: 2;
+  }
+
+  /* ── FADE IN ── */
+  .fade-in {
+    opacity: 0; transform: translateY(24px);
+    transition: opacity .7s ease, transform .7s ease;
+  }
+  .fade-in.visible { opacity: 1; transform: none; }
+
+  @media (max-width: 900px) {
+    nav { padding: 1.2rem 2rem; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; padding: 8rem 2rem 4rem; }
+    .hero-right { flex-direction: row; align-items: flex-start; }
+    .hero::before { font-size: 55vw; }
+    section { padding: 5rem 2rem; }
+    .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .info-band { grid-template-columns: 1fr; }
+    .info-cell { border-right: none; border-bottom: 1px solid #2a2820; }
+    .geo-grid { grid-template-columns: repeat(2, 1fr); }
+    .act-list { grid-template-columns: 1fr; }
+    .act-item { border-right: none !important; }
+    footer { flex-direction: column; gap: 2rem; align-items: flex-start; }
+    .footer-info { text-align: left; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">СУМ · 1925</div>
+  <ul class="nav-links">
+    <li><a href="#about">Про організацію</a></li>
+    <li><a href="#age">Вік та умови</a></li>
+    <li><a href="#geo">Географія</a></li>
+    <li><a href="#activities">Діяльність</a></li>
+    <li><a href="#history">Історія</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left fade-in">
+    <div class="hero-tag">Міжнародна організація</div>
+    <h1>Спілка<br><em>Української</em><br>Молоді</h1>
+    <p class="hero-desc">Виховуємо свідому, активну та патріотичну молодь з 1925 року. Об'єднуємо українців на батьківщині та в діаспорі по всьому світу.</p>
+  </div>
+  <div class="hero-right fade-in">
+    <div class="hero-stat">
+      <div class="num">1925</div>
+      <div class="label">Рік заснування</div>
+    </div>
+    <div class="hero-divider"></div>
+    <div class="hero-stat">
+      <div class="num">30+</div>
+      <div class="label">Країн присутності</div>
+    </div>
+    <div class="hero-divider"></div>
+    <div class="hero-stat">
+      <div class="num">100k+</div>
+      <div class="label">Членів за всю історію</div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-label">Про організацію</div>
+  <div class="about-grid fade-in">
+    <div class="about-text">
+      <h2>Хто ми<br><em>та для чого?</em></h2>
+      <p>Спілка Української Молоді — міжнародна молодіжна громадська організація, яка об'єднує українську молодь в Україні та в десятках країн світу. Заснована у 1925 році, вона є одним із найстаріших та найвпливовіших молодіжних рухів українського народу.</p>
+      <p>Головна місія СУМ — виховання свідомої, активної й патріотичної молоді, яка шанує українські традиції та культуру і готова брати участь у розвитку громадянського суспільства.</p>
+      <p>Організація поєднує освітні програми, культурні заходи, таборування та волонтерство, щоб кожен учасник виростав справжнім лідером своєї громади.</p>
+    </div>
+    <div class="about-image">
+      <div class="founding-badge">
+        <span>1925</span>
+        <span>Засновано</span>
+      </div>
+      <div class="img-frame">
+        <span class="img-symbol">🌻</span>
+      </div>
+      <div class="img-caption">Символ єдності та зростання</div>
+    </div>
+  </div>
+</section>
+
+<!-- AGE + KEY INFO BAND -->
+<div id="age" class="info-band">
+  <div class="info-cell fade-in">
+    <div class="cell-label">Вікові групи</div>
+    <div class="cell-value">6–35</div>
+    <div class="cell-desc">Організація охоплює кілька вікових ланок: молодші (6–11 р.), середні (12–17 р.), старші (18–21 р.) та зрілі члени до 35 років.</div>
+  </div>
+  <div class="info-cell fade-in">
+    <div class="cell-label">Форма участі</div>
+    <div class="cell-value">Вільна</div>
+    <div class="cell-desc">Членство добровільне. Щоб вступити — достатньо звернутись до найближчого осередку та пройти короткий вступний курс.</div>
+  </div>
+  <div class="info-cell fade-in">
+    <div class="cell-label">Вступ</div>
+    <div class="cell-value">Відкрито</div>
+    <div class="cell-desc">Всі охочі українці та друзі України можуть долучитися. Для наймолодших (до 14 р.) потрібна згода батьків.</div>
+  </div>
+</div>
+
+<!-- GEOGRAPHY -->
+<section id="geo" class="geo-section">
+  <div class="section-label">Географія</div>
+  <h2>Де ми <em>присутні?</em></h2>
+  <div class="geo-grid fade-in">
+    <div class="geo-card">
+      <div class="geo-flag">🇺🇦</div>
+      <div class="geo-country">Україна</div>
+      <div class="geo-detail">Осередки по всій країні</div>
+    </div>
+    <div class="geo-card">
+      <div class="geo-flag">🇺🇸</div>
+      <div class="geo-country">США</div>
+      <div class="geo-detail">Велика діаспора · NY, Chicago, LA</div>
+    </div>
+    <div class="geo-card">
+      <div class="geo-flag">🇨🇦</div>
+      <div class="geo-country">Канада</div>
+      <div class="geo-detail">Торонто, Едмонтон, Вінніпег</div>
+    </div>
+    <div class="geo-card">
+      <div class="geo-flag">🇦🇺</div>
+      <div class="geo-country">Австралія</div>
+      <div class="geo-detail">Мельбурн, Сідней</div>
+    </div>
+    <div class="geo-card">
+      <div class="geo-flag">🇩🇪</div>
+      <div class="geo-country">Німеччина</div>
+      <div class="geo-detail">Мюнхен, Берлін, Франкфурт</div>
+    </div>
+    <div class="geo-card">
+      <div class="geo-flag">🇬🇧</div>
+      <div class="geo-country">Велика Британія</div>
+      <div class="geo-detail">Лондон та інші міста</div>
+    </div>
+    <div class="geo-card">
+      <div class="geo-flag">🇫🇷</div>
+      <div class="geo-country">Франція</div>
+      <div class="geo-detail">Париж та регіони</div>
+    </div>
+    <div class="geo-card">
+      <div class="geo-flag">🌐</div>
+      <div class="geo-country">Ще 20+ країн</div>
+      <div class="geo-detail">Аргентина, Бразилія, Польща…</div>
+    </div>
+  </div>
+</section>
+
+<!-- ACTIVITIES -->
+<section id="activities" class="activities">
+  <div class="section-label">Діяльність</div>
+  <h2>Що ми <em>робимо?</em></h2>
+  <div class="act-list fade-in">
+    <div class="act-item">
+      <div class="act-num">01</div>
+      <div class="act-title">Літні табори</div>
+      <div class="act-desc">Щоліта організовуються молодіжні табори, де учасники вивчають українську культуру, мову, традиції, розвивають лідерські навички та будують міцну спільноту.</div>
+      <div class="act-arrow">↗</div>
+    </div>
+    <div class="act-item">
+      <div class="act-num">02</div>
+      <div class="act-title">Освітні програми</div>
+      <div class="act-desc">Регулярні тренінги, семінари та воркшопи з громадянської освіти, лідерства, публічних виступів та управління проектами для молоді різного віку.</div>
+      <div class="act-arrow">↗</div>
+    </div>
+    <div class="act-item">
+      <div class="act-num">03</div>
+      <div class="act-title">Волонтерство</div>
+      <div class="act-desc">Члени СУМ активно долучаються до благодійних та волонтерських ініціатив — особливо під час повномасштабного вторгнення: збір гуманітарної допомоги, підтримка ЗСУ та переселенців.</div>
+      <div class="act-arrow">↗</div>
+    </div>
+    <div class="act-item">
+      <div class="act-num">04</div>
+      <div class="act-title">Культурні події</div>
+      <div class="act-desc">Фестивалі, виставки, концерти, відзначення українських свят і пам'ятних дат — усе це спрямоване на збереження та популяризацію української ідентичності.</div>
+      <div class="act-arrow">↗</div>
+    </div>
+    <div class="act-item">
+      <div class="act-num">05</div>
+      <div class="act-title">Спорт і туризм</div>
+      <div class="act-desc">Спортивні змагання, туристичні походи, командні ігри та фізичний розвиток як невід'ємна частина здорового та активного способу життя членів організації.</div>
+      <div class="act-arrow">↗</div>
+    </div>
+    <div class="act-item">
+      <div class="act-num">06</div>
+      <div class="act-title">Мовні програми</div>
+      <div class="act-desc">Для діаспори особливо важливі програми з вивчення та підтримки української мови — розмовні клуби, курси та мовні табори для дітей і молоді.</div>
+      <div class="act-arrow">↗</div>
+    </div>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section id="history">
+  <div class="section-label">Ключові моменти</div>
+  <h2><em>Хронологія</em><br>організації</h2>
+  <div class="timeline fade-in">
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-year">1925</div>
+      <div class="tl-title">Заснування СУМ</div>
+      <div class="tl-body">Організація заснована у Празі як осередок для молодих українців в еміграції. Від самого початку ставила за мету збереження національної ідентичності та виховання патріотичної молоді.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-year">1940–1960-ті</div>
+      <div class="tl-title">Розширення в діаспорі</div>
+      <div class="tl-body">Після Другої світової війни СУМ активно розбудовує мережу осередків у США, Канаді, Австралії та Західній Європі — слідом за хвилями української еміграції.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-year">1991</div>
+      <div class="tl-title">Повернення в Україну</div>
+      <div class="tl-body">Після проголошення незалежності СУМ починає активну діяльність безпосередньо в Україні. Відновлюються осередки по всій країні, тисячі молодих українців приєднуються до організації.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-year">2014</div>
+      <div class="tl-title">Після Революції Гідності</div>
+      <div class="tl-body">Члени СУМ беруть активну участь у суспільних змінах, допомагають постраждалим, організовують волонтерські ініціативи та поширюють ідеї громадянського суспільства.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-year">2022 — сьогодні</div>
+      <div class="tl-title">Підтримка під час війни</div>
+      <div class="tl-body">З початком повномасштабного вторгнення СУМ мобілізує сотні волонтерів, організовує збір допомоги для армії та переселенців, проводить евакуацію, а також підтримує українську молодь за кордоном.</div>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTE -->
+<div class="quote-band">
+  <div class="quote-text">"Нація живе, доки її молодь пам'ятає, хто вона є."</div>
+  <div class="quote-source">Ідея, що лежить в основі СУМ від 1925 року</div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">СУМ</div>
+  <div class="footer-info">
+    <div>Спілка Української Молоді</div>
+    <div>Засновано 1925 · Діємо сьогодні</div>
+    <div style="margin-top:.8rem; color:#4a4438">sum.ua · сум.укр</div>
+  </div>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        // stagger children if needed
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
